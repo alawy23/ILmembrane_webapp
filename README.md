@@ -26,3 +26,6 @@ This R web app (made with shiny and plotly). Takes manually collected ionic liqu
 - This gif shows a quick example of how this app is used.
   ![](IL_membrane_webapp.gif)
 - I will include a link here to it soon.
+
+## About:
+- I will add the about section soon.
