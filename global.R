@@ -18,3 +18,4 @@ library(shinyWidgets)
 # The shinythemes package makes changing the web app theme easy.
 # CSS theme scripts can be used alternatively.
 library(shinythemes)
+library(htmlwidgets)

@@ -114,6 +114,7 @@ navbarPage(
         # The multiple argument allows for multiple choices.
         multiple = TRUE,
         options = pickerOptions(
+          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -129,6 +130,7 @@ navbarPage(
         choices = as.character(unique(membrane_data$Authors)),
         multiple = TRUE,
         options = pickerOptions(
+          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -147,6 +149,7 @@ navbarPage(
         ))[!c(as.character(unique(membrane_data$IL.Cation.name)), as.character(unique(membrane_data$PIL.Monomer.Cation.name))) %in% c("", "-")],
         multiple = TRUE,
         options = pickerOptions(
+          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -165,6 +168,7 @@ navbarPage(
         )))[!c(as.character(unique(membrane_data$IL.Anion.name)), as.character(unique(membrane_data$PIL.Anion.name))) %in% c("", "-")],
         multiple = TRUE,
         options = pickerOptions(
+          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -341,3 +345,4 @@ navbarPage(
              
            ))))
 )
+

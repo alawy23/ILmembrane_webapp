@@ -8,23 +8,51 @@ server <- function(input, output, session) {
   # The follwing code renders and styles the data table tab.
   output$table1 <- DT::renderDataTable({
     membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 1)
+    # The following lines remove unecessary metadata for the data tab.
+    membrane_data= subset(membrane_data, select = -c(Type_cond,Material.1,Material.2,Material.3,Material.4,Material.5,
+                                                     Material.6,Notes,IL.Cation.name,IL.Anion.name,IL.Cation.SMILE,IL.Anion.SMILE,
+                                                     PIL.Monomer.Cation.name,PIL.Monomer.Cation.SMILE,PIL.Anion.name,PIL.Anion.SMILE,
+                                                     Support.Copolymer.metal.organic.framework..MOF.,Institutions,Corresponding.Author,
+                                                     Corresponding.Author.Email,Corresponding.Author.Institution,P.CO2..Error,
+                                                     alphErr,J_abb,Page,Volume) )
+    membrane_data = membrane_data[c("Full.Name","Abbreviation","Type","P","alph",
+                                    "Temperatures..degC.","Pressures..bar.","Year",
+                                    "Article.Title","Authors","Journal","DOI.URL")]
   }, filter = 'top',
   options = list(
     pageLength = 10,
     scrollX = TRUE,
     autoWidth = TRUE,
-    columnDefs = list(list(width = '100px', targets = 2))
+    # The columnDefs are used to control the size and format of the columns.
+    columnDefs = list(
+      list(width = '300px', targets = c(1,2,9,10,11)),
+      list(width = '100px', targets = c(3)),
+      list(targets = c(1,2,9,10,11),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")))
   ))
   
   # The follwing code renders and styles the data table tab.
   output$table2 <- DT::renderDataTable({
     membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 2)
+    # The following lines remove unecessary metadata for the data tab.
+    membrane_data= subset(membrane_data, select = -c(Type_cond,Material.1,Material.2,Material.3,Material.4,Material.5,
+                                                     Material.6,Notes,IL.Cation.name,IL.Anion.name,IL.Cation.SMILE,IL.Anion.SMILE,
+                                                     PIL.Monomer.Cation.name,PIL.Monomer.Cation.SMILE,PIL.Anion.name,PIL.Anion.SMILE,
+                                                     Support.Copolymer.metal.organic.framework..MOF.,Institutions,Corresponding.Author,
+                                                     Corresponding.Author.Email,Corresponding.Author.Institution,P.CO2..Error,
+                                                     alphErr,J_abb,Page,Volume) )
+    membrane_data = membrane_data[c("Full.Name","Abbreviation","Type","P","alph",
+                                    "Temperatures..degC.","Pressures..bar.","Year",
+                                    "Article.Title","Authors","Journal","DOI.URL")]
   }, filter = 'top',
   options = list(
     pageLength = 10,
     scrollX = TRUE,
     autoWidth = TRUE,
-    columnDefs = list(list(width = '100px', targets = 2))
+    # The following lines remove unecessary metadata for the data tab.
+    columnDefs = list(
+      list(width = '300px', targets = c(1,2,9,10,11)),
+      list(width = '100px', targets = c(3)),
+      list(targets = c(1,2,9,10,11),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")))
   ))
   
   # The following code renders the plotly plot using the plot_builder function.
@@ -88,7 +116,7 @@ server <- function(input, output, session) {
             br(),
             p(small(
               b("Permeability: "),
-              paste(membrane_data$P[rowClicked]),
+              paste(membrane_data$P[rowClicked]), paste("Barrer"),
               HTML(
                 "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
               ),
@@ -207,7 +235,7 @@ server <- function(input, output, session) {
             br(),
             p(small(
               b("Permeability: "),
-              paste(membrane_data$P[rowClicked]),
+              paste(membrane_data$P[rowClicked]), paste("Barrer"),
               HTML(
                 "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
               ),
