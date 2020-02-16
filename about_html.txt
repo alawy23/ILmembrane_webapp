@@ -1,0 +1,26 @@
+<p><strong><img style="display: block; margin-left: auto; margin-right: auto;" src="https://strategiccommunications.ua.edu/img/logos/UA-StackedNameplate.png" alt="" width="319" height="81" /></strong></p>
+<p>&nbsp;</p>
+<p>This is a work in progress draft project that seeks to compile and share machine-readable Ionic Liquid Membrane data. A manuscript is in preparation:</p>
+<p>&nbsp;</p>
+<p>Alshaikh, A.A.; Scalfani, V.F.; Bara, J.E. Sharing Interactive Machine-readable Ionic Liquid Membrane Data with R Shiny Apps, 2020, in preparation.</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><strong>Overview</strong></p>
+<p>We are manually compiling the ionic liquid permeability and selectivity data from the literature and plotting them with an R shiny app. A similar effort using Google Sheets is available from the Membrane Society of Australasia: <a href="https://membrane-australasia.org/msa-activities/polymer-gas-separation-membrane-database/">https://membrane-australasia.org/msa-activities/polymer-gas-separation-membrane-database/</a></p>
+<p>&nbsp;</p>
+<p>Also add Robeson reference here&hellip;.</p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><strong>Notes on Copyright and Reuse</strong></p>
+<p><span style="text-decoration: underline;">Disclaimer:</span>&nbsp;&nbsp;Not legal advice, just our own personal (non-lawyer) thoughtful notes.</p>
+<p>&nbsp;</p>
+<p>The purpose of this ionic liquid membrane data compilation is to allow greater discovery, reuse, and credit of the original authors' factual data, not to claim any ownership of the written article content. Please check the original reference for specific copyright related to the article.</p>
+<p>&nbsp;</p>
+<p>For all ionic liquid membranes indexed, no judgment is made on the appropriateness of the methods reported, safety precautions required, nor accuracy of the measurement data. Readers need to make their own assessment of the data. In addition, during indexing and processing of the membrane data, inaccuracies may be present due to human and/or machine software error. We attempted to minimize inaccuracies and share membrane data with fidelity to the original source, however, we can not make any guarantees on the accuracy of the membrane and structure data. You should always check the original reference to verify the data.</p>
+<p>&nbsp;</p>
+<p>We have only indexed and shared scientific facts (i.e., chemical substances, permeability data) and bibliographic information from the articles. Such scientific facts and bibliographic data are not subject to U.S. copyright protection: Compendium of U.S. Copyright Office Practices. See specifically section 313.3(A) and 313.3 (C), where examples are listed that are excluded from copyright protection, including facts and chemical substances: https://www.copyright.gov/comp3/</p>
+<p>&nbsp;</p>
+<p>We have endeavored to credit each author and journal source respectfully by including the full reference citations and permalink to the source.</p>
+<p>&nbsp;</p>
+<p>The data compilation in this repository is licensed with CC-BY 4.0. Please give the original authors credit by citing their work and following standard scholarly practice for reuse of the scientific literature, particularly if our compilation has led you to useful content within their article.</p>
+<p>&nbsp;</p>
+<p><strong>Contact:</strong></p>
+<p>Something something</p>

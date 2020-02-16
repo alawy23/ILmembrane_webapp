@@ -18,4 +18,12 @@ library(shinyWidgets)
 # The shinythemes package makes changing the web app theme easy.
 # CSS theme scripts can be used alternatively.
 library(shinythemes)
+# htmlwidgets is used to introduce a number of widgets and elements.
 library(htmlwidgets)
+# DT is used to create the data tables used in the app.
+library(DT)
+# shinytoastr is used to make the notifications used as a tutorial in the app.
+library(shinytoastr)
+# shinyhelper is the package used to create the helper icon and message atop of the
+# plots and data tables in the app.
+library(shinyhelper)

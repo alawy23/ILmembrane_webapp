@@ -2,57 +2,122 @@
 # Here UI objects are linked with inputs or outputs.
 
 server <- function(input, output, session) {
+  
+  # Deaclare usage of shinyhelpers. The withMathJax arguments makes it
+  # possible to use MathJax in markdown for the helper pop-up.
+  observe_helpers(withMathJax = TRUE)
+  
   # sourcing the functions to be used here.
   source('plot_builder.R')
   source('conditional_window.R')
   # The follwing code renders and styles the data table tab.
-  output$table1 <- DT::renderDataTable({
+  output$table1 <- renderDataTable({
     membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 1)
     # The following lines remove unecessary metadata for the data tab.
     membrane_data= subset(membrane_data, select = -c(Type_cond,Material.1,Material.2,Material.3,Material.4,Material.5,
-                                                     Material.6,Notes,IL.Cation.name,IL.Anion.name,IL.Cation.SMILE,IL.Anion.SMILE,
-                                                     PIL.Monomer.Cation.name,PIL.Monomer.Cation.SMILE,PIL.Anion.name,PIL.Anion.SMILE,
-                                                     Support.Copolymer.metal.organic.framework..MOF.,Institutions,Corresponding.Author,
+                                                     Material.6,Notes,Institutions,Corresponding.Author,
                                                      Corresponding.Author.Email,Corresponding.Author.Institution,P.CO2..Error,
                                                      alphErr,J_abb,Page,Volume) )
+    # The following lines reorders thecolumn of the database used for the data tab.
     membrane_data = membrane_data[c("Full.Name","Abbreviation","Type","P","alph",
+                                    "IL.Cation.name","IL.Cation.SMILE","IL.Anion.name","IL.Anion.SMILE",
+                                    "PIL.Monomer.Cation.name","PIL.Monomer.Cation.SMILE","PIL.Anion.name","PIL.Anion.SMILE",
+                                    "Support.Copolymer.metal.organic.framework..MOF.",
                                     "Temperatures..degC.","Pressures..bar.","Year",
                                     "Article.Title","Authors","Journal","DOI.URL")]
   }, filter = 'top',
+  # The "Buttons" and "Select" extensions are used to make copying from the data tab available.
+  extensions = c("Buttons", "Select"),
+  selection = 'none',
+  server = FALSE,
+  # The following lines renames the columns.
+  colnames = c("Full Name" = "Full.Name","Permeability (Barrer)" = "P","Selectivity" = "alph",
+               "IL Cation Name" = "IL.Cation.name","IL Cation SMILE" = "IL.Cation.SMILE","IL Anion Name" = "IL.Anion.name",
+               "IL Anion SMILE" = "IL.Anion.SMILE","PIL Monomer Cation Name" = "PIL.Monomer.Cation.name","PIL Monomer Cation SMILE" = "PIL.Monomer.Cation.SMILE",
+               "PIL Anion Name" = "PIL.Anion.name","PIL Anion SMILE" = "PIL.Anion.SMILE","Other Materials" = "Support.Copolymer.metal.organic.framework..MOF.",
+               "Temperature (DegC)" = "Temperatures..degC.","Pressure (bar)" = "Pressures..bar.",
+               "Article Title" = "Article.Title","DOI Link" = "DOI.URL"),
+  # The following code is clicked on a row (from Batanichek in stackoverflow).
+  # Checking whether a row is clicked will be used to send tutorial notifications.
+  callback = JS("table.on('click.dt', 'td', function() {
+            var row_=table.cell(this).index().row;
+            var col=table.cell(this).index().column;
+            var rnd= Math.random();
+            var data = [row_, col, rnd];
+           Shiny.onInputChange('rows1',data );
+    });"),
   options = list(
-    pageLength = 10,
+    select = TRUE,
+    dom = "Blfrtip",
     scrollX = TRUE,
     autoWidth = TRUE,
+    # Declare the copy button in datatable.
+    buttons = list(
+      list(
+        extend = "copy",
+        text = 'Copy',
+        exportOptions = list(modifier = list(selected = TRUE))
+      )
+    ),
     # The columnDefs are used to control the size and format of the columns.
     columnDefs = list(
-      list(width = '300px', targets = c(1,2,9,10,11)),
+      list(width = '300px', targets = c(1,2,18,19,20)),
+      list(width = '475px', targets = c(6,7,8,9,10,11,12,13,14)),
       list(width = '100px', targets = c(3)),
-      list(targets = c(1,2,9,10,11),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")))
+      list(targets = c(1,2,18,19,20),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")),
+      list(targets = c(6,7,8,9,10,11,12,13,14),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 70 ?","'<span title=\"' + data + '\">' + data.substr(0, 60) + '...</span>' : data;","}")))
   ))
   
   # The follwing code renders and styles the data table tab.
-  output$table2 <- DT::renderDataTable({
+  output$table2 <- renderDataTable({
     membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 2)
     # The following lines remove unecessary metadata for the data tab.
     membrane_data= subset(membrane_data, select = -c(Type_cond,Material.1,Material.2,Material.3,Material.4,Material.5,
-                                                     Material.6,Notes,IL.Cation.name,IL.Anion.name,IL.Cation.SMILE,IL.Anion.SMILE,
-                                                     PIL.Monomer.Cation.name,PIL.Monomer.Cation.SMILE,PIL.Anion.name,PIL.Anion.SMILE,
-                                                     Support.Copolymer.metal.organic.framework..MOF.,Institutions,Corresponding.Author,
+                                                     Material.6,Notes,Institutions,Corresponding.Author,
                                                      Corresponding.Author.Email,Corresponding.Author.Institution,P.CO2..Error,
                                                      alphErr,J_abb,Page,Volume) )
     membrane_data = membrane_data[c("Full.Name","Abbreviation","Type","P","alph",
+                                    "IL.Cation.name","IL.Cation.SMILE","IL.Anion.name","IL.Anion.SMILE",
+                                    "PIL.Monomer.Cation.name","PIL.Monomer.Cation.SMILE","PIL.Anion.name","PIL.Anion.SMILE",
+                                    "Support.Copolymer.metal.organic.framework..MOF.",
                                     "Temperatures..degC.","Pressures..bar.","Year",
                                     "Article.Title","Authors","Journal","DOI.URL")]
   }, filter = 'top',
+  extensions = c("Buttons", "Select"),
+  selection = 'none',
+  server = FALSE,
+  colnames = c("Full Name" = "Full.Name","Permeability (Barrer)" = "P","Selectivity" = "alph",
+               "IL Cation Name" = "IL.Cation.name","IL Cation SMILE" = "IL.Cation.SMILE","IL Anion Name" = "IL.Anion.name",
+               "IL Anion SMILE" = "IL.Anion.SMILE","PIL Monomer Cation Name" = "PIL.Monomer.Cation.name","PIL Monomer Cation SMILE" = "PIL.Monomer.Cation.SMILE",
+               "PIL Anion Name" = "PIL.Anion.name","PIL Anion SMILE" = "PIL.Anion.SMILE","Other Materials" = "Support.Copolymer.metal.organic.framework..MOF.",
+               "Temperature (DegC)" = "Temperatures..degC.","Pressure (bar)" = "Pressures..bar.",
+               "Article Title" = "Article.Title","DOI Link" = "DOI.URL"),
+  callback = JS("table.on('click.dt', 'td', function() {
+            var row_=table.cell(this).index().row;
+            var col=table.cell(this).index().column;
+            var rnd= Math.random();
+            var data = [row_, col, rnd];
+           Shiny.onInputChange('rows2',data );
+    });"),
   options = list(
-    pageLength = 10,
+    select = TRUE,
+    dom = "Blfrtip",
     scrollX = TRUE,
     autoWidth = TRUE,
-    # The following lines remove unecessary metadata for the data tab.
+    buttons = list(
+      list(
+        extend = "copy",
+        text = 'Copy',
+        exportOptions = list(modifier = list(selected = TRUE))
+      )
+    ),
+    # The columnDefs are used to control the size and format of the columns.
     columnDefs = list(
-      list(width = '300px', targets = c(1,2,9,10,11)),
+      list(width = '300px', targets = c(1,2,18,19,20)),
+      list(width = '475px', targets = c(6,7,8,9,10,11,12,13,14)),
       list(width = '100px', targets = c(3)),
-      list(targets = c(1,2,9,10,11),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")))
+      list(targets = c(1,2,18,19,20),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")),
+      list(targets = c(6,7,8,9,10,11,12,13,14),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 70 ?","'<span title=\"' + data + '\">' + data.substr(0, 60) + '...</span>' : data;","}")))
   ))
   
   # The following code renders the plotly plot using the plot_builder function.
@@ -158,20 +223,12 @@ server <- function(input, output, session) {
               a(href = membrane_data$DOI.URL[rowClicked], membrane_data$DOI.URL[rowClicked])
             )),
             br(),
-            p(small(
-              b("Corresponding Author: "),
-              membrane_data$Corresponding.Author[rowClicked]
-            )),
             p(
               small(
                 b("Corresponding Author Instiution: "),
                 membrane_data$Corresponding.Author.Institution[rowClicked]
               )
-            ),
-            p(small(
-              b("Corresponding Author Email: "),
-              a(membrane_data$Corresponding.Author.Email[rowClicked])
-            ))
+            )
           )
         ),
         type = "NONE",
@@ -275,20 +332,12 @@ server <- function(input, output, session) {
               a(href = membrane_data$DOI.URL[rowClicked], membrane_data$DOI.URL[rowClicked])
             )),
             br(),
-            p(small(
-              b("Corresponding Author: "),
-              membrane_data$Corresponding.Author[rowClicked]
-            )),
             p(
               small(
                 b("Corresponding Author Instiution: "),
                 membrane_data$Corresponding.Author.Institution[rowClicked]
               )
-            ),
-            p(small(
-              b("Corresponding Author Email: "),
-              a(membrane_data$Corresponding.Author.Email[rowClicked])
-            ))
+            )
           )
         ),
         type = "NONE",
@@ -300,6 +349,24 @@ server <- function(input, output, session) {
     
     
   })
-  
-  
+  # The following observe event check (only once) whether a user hovered on a point in the plotly plot
+  # then send a toastr notification as a tutorial for what more can be done.
+  observeEvent(event_data("plotly_hover", source = "co2_n2_plot", priority = "event"),once = TRUE,{
+    toastr_info("Click on the point for more information")
+    toastr_info("Click on the gear sympol for filters")
+  })
+  observeEvent(event_data("plotly_hover", source = "co2_ch4_plot", priority = "event"),once = TRUE,{
+    toastr_info("Click on the point for more information")
+    toastr_info("Click on the gear sympol for filters")
+  })
+  # the following observe even checks (only once) whether a user clicked on a row
+  # in data tables then sends a toastr notification as a tutorial for what more can be done.
+  observeEvent(input$rows1,once = TRUE,{
+    toastr_info("Click on the copy button to copy to clipboard")
+    toastr_info("Use ctrl + click (cmd + click for Mac) to select multiple rows")
+  })
+  observeEvent(input$rows2,once = TRUE,{
+    toastr_info("Click on the copy button to copy to clipboard")
+    toastr_info("Use ctrl + click (cmd + click for Mac) to select multiple rows")
+  })
 }

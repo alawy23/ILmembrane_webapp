@@ -17,7 +17,8 @@ navbarPage(
   #themeSelector(),
   theme = shinytheme("sandstone"),
   # The tabPanel function is used to introduce a new tab
-  tabPanel(# The first line is usually used as the tab title argument.
+  tabPanel(
+    # The first argument is usually used as the tab title argument.
     # The HTML function is pretty useful in Shiny.
     # It can be used to include html formatting to text.
     HTML(paste(
@@ -33,9 +34,14 @@ navbarPage(
     mainPanel(
       # Here I am refering to "table1" which can be seen in the server script
       # refering to the first sheet of the Excel File.
-      DT::dataTableOutput("table1", width = "100%", height = "auto"),
-      width = 12
-    )),
+      dataTableOutput("table1", width = "100%", height = "auto")%>% 
+        # The helper function is from the shinyhelper package.
+        # It is used to include a help icon near the UI element attached to it.
+        # It will send a message when clicked, the message will be in a folder in the
+        # app's directory. The message file's format is .md (in markdown).
+        helper(size = "l", 
+               content = "TableHelp"),
+      width = 12)),
   tabPanel(HTML(paste(
     tags$p(
       "CO",
@@ -46,7 +52,9 @@ navbarPage(
     )
   )),
   mainPanel(
-    DT::dataTableOutput("table2", width = "100%", height = "auto"),
+    dataTableOutput("table2", width = "100%", height = "auto")%>% 
+      helper(size = "l", 
+             content = "TableHelp"),
     width = 12
   )),
   tabPanel(
@@ -114,7 +122,6 @@ navbarPage(
         # The multiple argument allows for multiple choices.
         multiple = TRUE,
         options = pickerOptions(
-          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -126,11 +133,10 @@ navbarPage(
       ),
       pickerInput(
         inputId = "auth",
-        label = "Authors",
-        choices = as.character(unique(membrane_data$Authors)),
+        label = "Author",
+        choices = as.character(unique(membrane_data$Corresponding.Author)),
         multiple = TRUE,
         options = pickerOptions(
-          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -149,7 +155,6 @@ navbarPage(
         ))[!c(as.character(unique(membrane_data$IL.Cation.name)), as.character(unique(membrane_data$PIL.Monomer.Cation.name))) %in% c("", "-")],
         multiple = TRUE,
         options = pickerOptions(
-          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -168,7 +173,6 @@ navbarPage(
         )))[!c(as.character(unique(membrane_data$IL.Anion.name)), as.character(unique(membrane_data$PIL.Anion.name))) %in% c("", "-")],
         multiple = TRUE,
         options = pickerOptions(
-          mobile = TRUE,
           actionsBox = TRUE,
           size = 10,
           selectedTextFormat = "count > 3",
@@ -191,9 +195,16 @@ navbarPage(
     )
     ,
     # Here I am using plotlyOutput to include the plotly object in the main panel.
-    mainPanel(plotlyOutput(
+    mainPanel(
+      # Declare toastr usage. This allows for the usage of notifications from
+      # the shinytoastr package. The code processing these notifications is in the server script.
+      useToastr(),
+      plotlyOutput(
       "plot1", width = "100%", height = "100%"
-    ), width =
+    ) %>% 
+      helper(size = "l", 
+             content = "PlotHelp"),
+    width =
       12)
   ),
   # I am repeating the above tab for the CO2/CH4 data here.
@@ -272,8 +283,8 @@ navbarPage(
       ),
       pickerInput(
         inputId = "auth2",
-        label = "Authors",
-        choices = as.character(unique(membrane_data2$Authors)),
+        label = "Author",
+        choices = as.character(unique(membrane_data2$Corresponding.Author)),
         multiple = TRUE,
         options = pickerOptions(
           actionsBox = TRUE,
@@ -331,18 +342,33 @@ navbarPage(
       )
     )
     ,
-    mainPanel(plotlyOutput(
+    mainPanel(
+      useToastr(),
+      plotlyOutput(
       "plot2", width = "100%", height = "100%"
-    ), width =
-      12)
+    ) %>% 
+      helper(size = "l", 
+             content = "PlotHelp"),
+    width =
+      12
+      
+    )
   ),
   # This About tab is to be formatted using HTML tags.
-  tabPanel("About",
-           mainPanel(withTags(div(
-             h1("About this Project"),
-             p("Write stuff here")
-             
-             
-           ))))
+  # An icon is used here in place of a title.
+  tabPanel(icon("info-circle"),
+           # Fluid Page is a type of UI display. It can be used when you want to specifiy the
+           # location of an element.
+           fluidPage(
+             column(7, offset = 2,
+          # A well panel is a type of UI display.
+           wellPanel(
+             # The following line reads and shows an html formatted text file.
+             HTML(readChar('about_html.txt',file.info('about_html.txt')$size))
+           )
+             )
+           )
 )
+)
+
 

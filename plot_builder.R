@@ -76,41 +76,6 @@ plot_builder <- function(membrane_data,
     levels(membrane_data$Full.Name)[i] <- temp_text
   }
   
-  # The following code builds a citation string for each row, with the
-  # appropriate html tags to style the string in ACS styling.
-  cit = 0
-  for (i in 1:length(as.vector(membrane_data$Article.Title))) {
-    temp_text = paste(
-      as.vector(membrane_data$Authors[i]),
-      " ",
-      as.vector(membrane_data$Article.Title[i]),
-      ". <i>",
-      as.vector(membrane_data$J_abb[i]),
-      "</i> <b>",
-      as.vector(membrane_data$Year[i]),
-      ",</b> <i>",
-      as.vector(membrane_data$Volume[i]),
-      ",</i> ",
-      as.vector(membrane_data$Page[i]),
-      ".</br> <b>DOI:</b>",
-      as.vector(membrane_data$DOI.URL[i])
-    )
-    # Using the strwrap function again to format long citation into paragraph formatting.
-    temp_text = strwrap(
-      temp_text,
-      width = 80,
-      indent = 0,
-      exdent = 0,
-      prefix = "</br>      ",
-      simplify = TRUE,
-      initial = ""
-    )
-    temp_text = str_c(temp_text, collapse = "")
-    cit[i] = temp_text
-  }
-  # Introducing a new column to hold the citations.
-  membrane_data$cit = cit
-  
   # The following code removes any rows (from the database) with permeability values above or below
   # those chosen by the user, or the default if nothing was chosen by the user.
   record = numeric(0)
@@ -180,14 +145,11 @@ plot_builder <- function(membrane_data,
   }
   
   # Similar to the journal filter, the following code will filter any row with authors
-  # not chosen by the user. Here I used the all authors column instead of just the
-  # corresponding author. I added a partial search option in the UI which means the
-  # user can filter any author, including the corresponding author. As a con, It would not
-  # be as neat.
+  # not chosen by the user. Here I only used the corresponding author.
   record = numeric(0)
-  if (!is_empty(membrane_data$Authors) && !is_empty(auth)) {
-    for (i in 1:length(as.vector(membrane_data$Authors))) {
-      if (!(as.character(as.vector(membrane_data$Authors[i])) %in% auth)) {
+  if (!is_empty(membrane_data$Corresponding.Author) && !is_empty(auth)) {
+    for (i in 1:length(as.vector(membrane_data$Corresponding.Author))) {
+      if (!(as.character(as.vector(membrane_data$Corresponding.Author[i])) %in% auth)) {
         record = c(record, i)
       }
     }
@@ -349,14 +311,8 @@ plot_builder <- function(membrane_data,
           ),
           '</br><b>PIL Cation Monomer:</b> ',
           as.vector(membrane_data$PIL.Monomer.Cation.name),
-          '</br><b>PIL Cation Monomer SMILE:</b> ',
-          as.vector(membrane_data$PIL.Monomer.Cation.SMILE),
           '</br><b>PIL Anion:</b> ',
-          as.vector(membrane_data$PIL.Anion.name),
-          '</br><b>PIL Anion SMILE:</b> ',
-          as.vector(membrane_data$PIL.Anion.SMILE),
-          '</br></br><b>Citation:</br></b>',
-          as.vector(membrane_data$cit)
+          as.vector(membrane_data$PIL.Anion.name)
         ),
         ifelse(
           as.vector(membrane_data$Type_cond) == 'SILM',
@@ -375,14 +331,8 @@ plot_builder <- function(membrane_data,
             ),
             '</br><b>IL Cation:</b> ',
             as.vector(membrane_data$IL.Cation.name),
-            '</br><b>IL Cation SMILE:</b> ',
-            as.vector(membrane_data$IL.Cation.SMILE),
             '</br><b>IL Anion :</b> ',
-            as.vector(membrane_data$IL.Anion.name),
-            '</br><b>IL Anion SMILE:</b> ',
-            as.vector(membrane_data$IL.Anion.SMILE),
-            '</br></br><b>Citation:</br></b>',
-            as.vector(membrane_data$cit)
+            as.vector(membrane_data$IL.Anion.name)
           ),
           ifelse(
             as.vector(membrane_data$Type_cond) == 'PIL',
@@ -395,16 +345,10 @@ plot_builder <- function(membrane_data,
               as.vector(membrane_data$P),
               '</br><b>Selectivity:</b> ',
               as.vector(membrane_data$alph),
-              '</br><b>PIL Cation Monomer:</b> ',
+              '</br></br><b>PIL Cation Monomer:</b> ',
               as.vector(membrane_data$PIL.Monomer.Cation.name),
-              '</br><b>PIL Cation Monomer SMILE:</b> ',
-              as.vector(membrane_data$PIL.Monomer.Cation.SMILE),
               '</br><b>PIL Anion:</b> ',
-              as.vector(membrane_data$PIL.Anion.name),
-              '</br><b>PIL Anion SMILE:</b> ',
-              as.vector(membrane_data$PIL.Anion.SMILE),
-              '</br></br><b>Citation:</br></b>',
-              as.vector(membrane_data$cit)
+              as.vector(membrane_data$PIL.Anion.name)
             ),
             ifelse(
               as.vector(membrane_data$Type_cond) == 'MMM',
@@ -423,14 +367,8 @@ plot_builder <- function(membrane_data,
                 ),
                 '</br><b>IL Cation:</b> ',
                 as.vector(membrane_data$IL.Cation.name),
-                '</br><b>IL Cation SMILE:</b> ',
-                as.vector(membrane_data$IL.Cation.SMILE),
                 '</br><b>IL Anion :</b> ',
-                as.vector(membrane_data$IL.Anion.name),
-                '</br><b>IL Anion SMILE:</b> ',
-                as.vector(membrane_data$IL.Anion.SMILE),
-                '</br></br><b>Citation:</br></b>',
-                as.vector(membrane_data$cit)
+                as.vector(membrane_data$IL.Anion.name)
               ),
               ifelse(
                 as.vector(membrane_data$Type_cond) == 'PIL-IL',
@@ -443,24 +381,14 @@ plot_builder <- function(membrane_data,
                   as.vector(membrane_data$P),
                   '</br><b>Selectivity:</b> ',
                   as.vector(membrane_data$alph),
-                  '</br><b>PIL Cation Monomer:</b> ',
+                  '</br></br><b>PIL Cation Monomer:</b> ',
                   as.vector(membrane_data$PIL.Monomer.Cation.name),
-                  '</br><b>PIL Cation Monomer SMILE:</b> ',
-                  as.vector(membrane_data$PIL.Monomer.Cation.SMILE),
                   '</br><b>PIL Anion:</b> ',
                   as.vector(membrane_data$PIL.Anion.name),
-                  '</br><b>PIL Anion SMILE:</b> ',
-                  as.vector(membrane_data$PIL.Anion.SMILE),
                   '</br><b>IL Cation:</b> ',
                   as.vector(membrane_data$IL.Cation.name),
-                  '</br><b>IL Cation SMILE:</b> ',
-                  as.vector(membrane_data$IL.Cation.SMILE),
                   '</br><b>IL Anion :</b> ',
-                  as.vector(membrane_data$IL.Anion.name),
-                  '</br><b>IL Anion SMILE:</b> ',
-                  as.vector(membrane_data$IL.Anion.SMILE),
-                  '</br></br><b>Citation:</br></b>',
-                  as.vector(membrane_data$cit)
+                  as.vector(membrane_data$IL.Anion.name)
                 ),
                 ifelse(
                   as.vector(membrane_data$Type_cond) == 'PIL-BCP (free IL)',
@@ -479,22 +407,12 @@ plot_builder <- function(membrane_data,
                     ),
                     '</br><b>PIL Cation Monomer:</b> ',
                     as.vector(membrane_data$PIL.Monomer.Cation.name),
-                    '</br><b>PIL Cation Monomer SMILE:</b> ',
-                    as.vector(membrane_data$PIL.Monomer.Cation.SMILE),
                     '</br><b>PIL Anion:</b> ',
                     as.vector(membrane_data$PIL.Anion.name),
-                    '</br><b>PIL Anion SMILE:</b> ',
-                    as.vector(membrane_data$PIL.Anion.SMILE),
                     '</br><b>IL Cation:</b> ',
                     as.vector(membrane_data$IL.Cation.name),
-                    '</br><b>IL Cation SMILE:</b> ',
-                    as.vector(membrane_data$IL.Cation.SMILE),
                     '</br><b>IL Anion :</b> ',
-                    as.vector(membrane_data$IL.Anion.name),
-                    '</br><b>IL Anion SMILE:</b> ',
-                    as.vector(membrane_data$IL.Anion.SMILE),
-                    '</br></br><b>Citation:</br></b>',
-                    as.vector(membrane_data$cit)
+                    as.vector(membrane_data$IL.Anion.name)
                   ),
                   ifelse(
                     as.vector(membrane_data$Type_cond) == 'Polymer-IL',
@@ -514,13 +432,7 @@ plot_builder <- function(membrane_data,
                       '</br><b>IL Cation:</b> ',
                       as.vector(membrane_data$IL.Cation.name),
                       '</br><b>IL Cation SMILE:</b> ',
-                      as.vector(membrane_data$IL.Cation.SMILE),
-                      '</br><b>IL Anion :</b> ',
-                      as.vector(membrane_data$IL.Anion.name),
-                      '</br><b>IL Anion SMILE:</b> ',
-                      as.vector(membrane_data$IL.Anion.SMILE),
-                      '</br></br><b>Citation:</br></b>',
-                      as.vector(membrane_data$cit)
+                      as.vector(membrane_data$IL.Anion.name)
                     ),
                     ifelse(
                       as.vector(membrane_data$Type_cond) == 'MMM (PIL)',
@@ -540,21 +452,11 @@ plot_builder <- function(membrane_data,
                         '</br><b>PIL Cation Monomer:</b> ',
                         as.vector(membrane_data$PIL.Monomer.Cation.name),
                         '</br><b>PIL Cation Monomer SMILE:</b> ',
-                        as.vector(membrane_data$PIL.Monomer.Cation.SMILE),
-                        '</br><b>PIL Anion:</b> ',
                         as.vector(membrane_data$PIL.Anion.name),
-                        '</br><b>PIL Anion SMILE:</b> ',
-                        as.vector(membrane_data$PIL.Anion.SMILE),
                         '</br><b>IL Cation:</b> ',
                         as.vector(membrane_data$IL.Cation.name),
-                        '</br><b>IL Cation SMILE:</b> ',
-                        as.vector(membrane_data$IL.Cation.SMILE),
                         '</br><b>IL Anion :</b> ',
-                        as.vector(membrane_data$IL.Anion.name),
-                        '</br><b>IL Anion SMILE:</b> ',
-                        as.vector(membrane_data$IL.Anion.SMILE),
-                        '</br></br><b>Citation:</br></b>',
-                        as.vector(membrane_data$cit)
+                        as.vector(membrane_data$IL.Anion.name)
                       ),
                       ifelse(
                         as.vector(membrane_data$Type_cond) == 'No IL Membrane',
@@ -566,9 +468,7 @@ plot_builder <- function(membrane_data,
                           '</br></br><b>Permeability:</b> ',
                           as.vector(membrane_data$P),
                           '</br><b>Selectivity:</b> ',
-                          as.vector(membrane_data$alph),
-                          '</br></br><b>Citation:</br></b>',
-                          as.vector(membrane_data$cit)
+                          as.vector(membrane_data$alph)
                         ),
                         paste('')
                       )
