@@ -359,7 +359,7 @@ server <- function(input, output, session) {
     toastr_info("Click on the point for more information")
     toastr_info("Click on the gear sympol for filters")
   })
-  # the following observe even checks (only once) whether a user clicked on a row
+  # the following observe events checks (only once) whether a user clicked on a row
   # in data tables then sends a toastr notification as a tutorial for what more can be done.
   observeEvent(input$rows1,once = TRUE,{
     toastr_info("Click on the copy button to copy to clipboard")
@@ -368,5 +368,98 @@ server <- function(input, output, session) {
   observeEvent(input$rows2,once = TRUE,{
     toastr_info("Click on the copy button to copy to clipboard")
     toastr_info("Use ctrl + click (cmd + click for Mac) to select multiple rows")
+  })
+  
+  # The following observe events are are used for the slider/box input
+  # workaround widget. It requires 4 observeEven functions for each widget.
+  # I will try to find another way to ensure a neater code.
+  observeEvent(input$perm, {
+    updateNumericInput(session, "perm_min", value = input$perm[1])
+  })
+  observeEvent(input$perm, {
+    updateNumericInput(session, "perm_max", value = input$perm[2])
+  })
+  observeEvent(input$perm_max, {
+    updateSliderInput(session, "perm",
+                      value = c(input$perm[1],input$perm_max))
+  })
+  observeEvent(input$perm_min, {
+    updateSliderInput(session, "perm",
+                      value = c(input$perm_min,input$perm[2]))
+  })
+  
+  observeEvent(input$alpha, {
+    updateNumericInput(session, "alpha_min", value = input$alpha[1])
+  })
+  observeEvent(input$alpha, {
+    updateNumericInput(session, "alpha_max", value = input$alpha[2])
+  })
+  observeEvent(input$alpha_max, {
+    updateSliderInput(session, "alpha",
+                      value = c(input$alpha[1],input$alpha_max))
+  })
+  observeEvent(input$alpha_min, {
+    updateSliderInput(session, "alpha",
+                      value = c(input$alpha_min,input$alpha[2]))
+  })
+  
+  observeEvent(input$yr, {
+    updateNumericInput(session, "yr_min", value = input$yr[1])
+  })
+  observeEvent(input$yr, {
+    updateNumericInput(session, "yr_max", value = input$yr[2])
+  })
+  observeEvent(input$yr_max, {
+    updateSliderInput(session, "yr",
+                      value = c(input$yr[1],input$yr_max))
+  })
+  observeEvent(input$yr_min, {
+    updateSliderInput(session, "yr",
+                      value = c(input$yr_min,input$yr[2]))
+  })
+  
+  observeEvent(input$perm2, {
+    updateNumericInput(session, "perm2_min", value = input$perm2[1])
+  })
+  observeEvent(input$perm2, {
+    updateNumericInput(session, "perm2_max", value = input$perm2[2])
+  })
+  observeEvent(input$perm2_max, {
+    updateSliderInput(session, "perm2",
+                      value = c(input$perm2[1],input$perm2_max))
+  })
+  observeEvent(input$perm2_min, {
+    updateSliderInput(session, "perm2",
+                      value = c(input$perm2_min,input$perm2[2]))
+  })
+  
+  observeEvent(input$alpha2, {
+    updateNumericInput(session, "alpha2_min", value = input$alpha2[1])
+  })
+  observeEvent(input$alpha2, {
+    updateNumericInput(session, "alpha2_max", value = input$alpha2[2])
+  })
+  observeEvent(input$alpha2_max, {
+    updateSliderInput(session, "alpha2",
+                      value = c(input$alpha2[1],input$alpha2_max))
+  })
+  observeEvent(input$alpha2_min, {
+    updateSliderInput(session, "alpha2",
+                      value = c(input$alpha2_min,input$alpha2[2]))
+  })
+  
+  observeEvent(input$yr2, {
+    updateNumericInput(session, "yr2_min", value = input$yr2[1])
+  })
+  observeEvent(input$yr2, {
+    updateNumericInput(session, "yr2_max", value = input$yr2[2])
+  })
+  observeEvent(input$yr2_max, {
+    updateSliderInput(session, "yr2",
+                      value = c(input$yr2[1],input$yr2_max))
+  })
+  observeEvent(input$yr2_min, {
+    updateSliderInput(session, "yr2",
+                      value = c(input$yr2_min,input$yr2[2]))
   })
 }

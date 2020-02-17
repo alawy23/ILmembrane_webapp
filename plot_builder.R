@@ -276,6 +276,12 @@ plot_builder <- function(membrane_data,
   plot_ly(
     # Instructs the function to use the membrane_data database.
     data = membrane_data,
+    # The key argument is set as equal to the key column in the database.
+    # This will be important with the marker click event.
+    key = ~ key,
+    # Naming the source of this plot according to the plot_src input.
+    # This will be important with the marker click event.
+    source = plot_src,
     # Sets its type as scatter.
     type = "scatter",
     # Sets the x an y axes.
@@ -285,12 +291,6 @@ plot_builder <- function(membrane_data,
     hoverinfo = 'text',
     # Instructs the function to change marker colors according to the type.
     color = tr,
-    # The key argument is set as equal to the key column in the database.
-    # This will be important with the marker click event.
-    key = ~ key,
-    # Naming the source of this plot according to the plot_src input.
-    # This will be important with the marker click event.
-    source = plot_src,
     # The following text is done conditionally, and will be used in the tooltip.
     # This means that each type will get a different tooltip view.
     text =
