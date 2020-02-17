@@ -11,6 +11,8 @@
 
 ### **Widgets:**
 ##### **There are three types of highlighter or filter widgets**
+- **Buttons:**
+  - The reset button returns the plot to its initial state.
 - **Switches:**
   - The type switch displays the markers with different colors according to the membrane type.
     - Once the switch is turned on, a legend will show. Click on a certain type on the legend to filter it, or double click to show only the chosen membrane type.
@@ -29,4 +31,4 @@
 - Click on a datapoint to show a pop up window contining extra information about the membrane.
 - Check the tool tab above the plot for useful tools.
   - As default, the *zoom* tool is selected. Drag and select with you mouse to zoom into the selected datapoints.
-- You can use the tools and widgets simultaneously. 
+- You can use the tools and widgets simultaneously.

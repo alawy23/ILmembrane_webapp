@@ -2,7 +2,6 @@
 # Here UI objects are linked with inputs or outputs.
 
 server <- function(input, output, session) {
-  
   # Deaclare usage of shinyhelpers. The withMathJax arguments makes it
   # possible to use MathJax in markdown for the helper pop-up.
   observe_helpers(withMathJax = TRUE)
@@ -14,110 +13,244 @@ server <- function(input, output, session) {
   output$table1 <- renderDataTable({
     membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 1)
     # The following lines remove unecessary metadata for the data tab.
-    membrane_data= subset(membrane_data, select = -c(Type_cond,Material.1,Material.2,Material.3,Material.4,Material.5,
-                                                     Material.6,Notes,Institutions,Corresponding.Author,
-                                                     Corresponding.Author.Email,Corresponding.Author.Institution,P.CO2..Error,
-                                                     alphErr,J_abb,Page,Volume) )
+    membrane_data = subset(
+      membrane_data,
+      select = -c(
+        Type_cond,
+        Material.1,
+        Material.2,
+        Material.3,
+        Material.4,
+        Material.5,
+        Material.6,
+        Notes,
+        Institutions,
+        Corresponding.Author,
+        Corresponding.Author.Email,
+        Corresponding.Author.Institution,
+        P.CO2..Error,
+        alphErr,
+        J_abb,
+        Page,
+        Volume
+      )
+    )
     # The following lines reorders thecolumn of the database used for the data tab.
-    membrane_data = membrane_data[c("Full.Name","Abbreviation","Type","P","alph",
-                                    "IL.Cation.name","IL.Cation.SMILE","IL.Anion.name","IL.Anion.SMILE",
-                                    "PIL.Monomer.Cation.name","PIL.Monomer.Cation.SMILE","PIL.Anion.name","PIL.Anion.SMILE",
-                                    "Support.Copolymer.metal.organic.framework..MOF.",
-                                    "Temperatures..degC.","Pressures..bar.","Year",
-                                    "Article.Title","Authors","Journal","DOI.URL")]
+    membrane_data = membrane_data[c(
+      "Full.Name",
+      "Abbreviation",
+      "Type",
+      "P",
+      "alph",
+      "IL.Cation.name",
+      "IL.Cation.SMILE",
+      "IL.Anion.name",
+      "IL.Anion.SMILE",
+      "PIL.Monomer.Cation.name",
+      "PIL.Monomer.Cation.SMILE",
+      "PIL.Anion.name",
+      "PIL.Anion.SMILE",
+      "Support.Copolymer.metal.organic.framework..MOF.",
+      "Temperatures..degC.",
+      "Pressures..bar.",
+      "Year",
+      "Article.Title",
+      "Authors",
+      "Journal",
+      "DOI.URL"
+    )]
   }, filter = 'top',
   # The "Buttons" and "Select" extensions are used to make copying from the data tab available.
   extensions = c("Buttons", "Select"),
   selection = 'none',
   server = FALSE,
   # The following lines renames the columns.
-  colnames = c("Full Name" = "Full.Name","Permeability (Barrer)" = "P","Selectivity" = "alph",
-               "IL Cation Name" = "IL.Cation.name","IL Cation SMILE" = "IL.Cation.SMILE","IL Anion Name" = "IL.Anion.name",
-               "IL Anion SMILE" = "IL.Anion.SMILE","PIL Monomer Cation Name" = "PIL.Monomer.Cation.name","PIL Monomer Cation SMILE" = "PIL.Monomer.Cation.SMILE",
-               "PIL Anion Name" = "PIL.Anion.name","PIL Anion SMILE" = "PIL.Anion.SMILE","Other Materials" = "Support.Copolymer.metal.organic.framework..MOF.",
-               "Temperature (DegC)" = "Temperatures..degC.","Pressure (bar)" = "Pressures..bar.",
-               "Article Title" = "Article.Title","DOI Link" = "DOI.URL"),
+  colnames = c(
+    "Full Name" = "Full.Name",
+    "Permeability (Barrer)" = "P",
+    "Selectivity" = "alph",
+    "IL Cation Name" = "IL.Cation.name",
+    "IL Cation SMILE" = "IL.Cation.SMILE",
+    "IL Anion Name" = "IL.Anion.name",
+    "IL Anion SMILE" = "IL.Anion.SMILE",
+    "PIL Monomer Cation Name" = "PIL.Monomer.Cation.name",
+    "PIL Monomer Cation SMILE" = "PIL.Monomer.Cation.SMILE",
+    "PIL Anion Name" = "PIL.Anion.name",
+    "PIL Anion SMILE" = "PIL.Anion.SMILE",
+    "Other Materials" = "Support.Copolymer.metal.organic.framework..MOF.",
+    "Temperature (DegC)" = "Temperatures..degC.",
+    "Pressure (bar)" = "Pressures..bar.",
+    "Article Title" = "Article.Title",
+    "DOI Link" = "DOI.URL"
+  ),
   # The following code is clicked on a row (from Batanichek in stackoverflow).
   # Checking whether a row is clicked will be used to send tutorial notifications.
-  callback = JS("table.on('click.dt', 'td', function() {
+  callback = JS(
+    "table.on('click.dt', 'td', function() {
             var row_=table.cell(this).index().row;
             var col=table.cell(this).index().column;
             var rnd= Math.random();
             var data = [row_, col, rnd];
            Shiny.onInputChange('rows1',data );
-    });"),
+    });"
+  ),
   options = list(
     select = TRUE,
     dom = "Blfrtip",
     scrollX = TRUE,
     autoWidth = TRUE,
     # Declare the copy button in datatable.
-    buttons = list(
-      list(
-        extend = "copy",
-        text = 'Copy',
-        exportOptions = list(modifier = list(selected = TRUE))
-      )
-    ),
+    buttons = list(list(
+      extend = "copy",
+      text = 'Copy',
+      exportOptions = list(modifier = list(selected = TRUE))
+    )),
     # The columnDefs are used to control the size and format of the columns.
     columnDefs = list(
-      list(width = '300px', targets = c(1,2,18,19,20)),
-      list(width = '475px', targets = c(6,7,8,9,10,11,12,13,14)),
+      list(width = '300px', targets = c(1, 2, 18, 19, 20)),
+      list(
+        width = '475px',
+        targets = c(6, 7, 8, 9, 10, 11, 12, 13, 14)
+      ),
       list(width = '100px', targets = c(3)),
-      list(targets = c(1,2,18,19,20),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")),
-      list(targets = c(6,7,8,9,10,11,12,13,14),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 70 ?","'<span title=\"' + data + '\">' + data.substr(0, 60) + '...</span>' : data;","}")))
+      list(
+        targets = c(1, 2, 18, 19, 20),
+        render = JS(
+          "function(data, type, row, meta) {",
+          "return type === 'display' && data.length > 50 ?",
+          "'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;",
+          "}"
+        )
+      ),
+      list(
+        targets = c(6, 7, 8, 9, 10, 11, 12, 13, 14),
+        render = JS(
+          "function(data, type, row, meta) {",
+          "return type === 'display' && data.length > 70 ?",
+          "'<span title=\"' + data + '\">' + data.substr(0, 60) + '...</span>' : data;",
+          "}"
+        )
+      )
+    )
   ))
   
   # The follwing code renders and styles the data table tab.
   output$table2 <- renderDataTable({
     membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 2)
     # The following lines remove unecessary metadata for the data tab.
-    membrane_data= subset(membrane_data, select = -c(Type_cond,Material.1,Material.2,Material.3,Material.4,Material.5,
-                                                     Material.6,Notes,Institutions,Corresponding.Author,
-                                                     Corresponding.Author.Email,Corresponding.Author.Institution,P.CO2..Error,
-                                                     alphErr,J_abb,Page,Volume) )
-    membrane_data = membrane_data[c("Full.Name","Abbreviation","Type","P","alph",
-                                    "IL.Cation.name","IL.Cation.SMILE","IL.Anion.name","IL.Anion.SMILE",
-                                    "PIL.Monomer.Cation.name","PIL.Monomer.Cation.SMILE","PIL.Anion.name","PIL.Anion.SMILE",
-                                    "Support.Copolymer.metal.organic.framework..MOF.",
-                                    "Temperatures..degC.","Pressures..bar.","Year",
-                                    "Article.Title","Authors","Journal","DOI.URL")]
+    membrane_data = subset(
+      membrane_data,
+      select = -c(
+        Type_cond,
+        Material.1,
+        Material.2,
+        Material.3,
+        Material.4,
+        Material.5,
+        Material.6,
+        Notes,
+        Institutions,
+        Corresponding.Author,
+        Corresponding.Author.Email,
+        Corresponding.Author.Institution,
+        P.CO2..Error,
+        alphErr,
+        J_abb,
+        Page,
+        Volume
+      )
+    )
+    membrane_data = membrane_data[c(
+      "Full.Name",
+      "Abbreviation",
+      "Type",
+      "P",
+      "alph",
+      "IL.Cation.name",
+      "IL.Cation.SMILE",
+      "IL.Anion.name",
+      "IL.Anion.SMILE",
+      "PIL.Monomer.Cation.name",
+      "PIL.Monomer.Cation.SMILE",
+      "PIL.Anion.name",
+      "PIL.Anion.SMILE",
+      "Support.Copolymer.metal.organic.framework..MOF.",
+      "Temperatures..degC.",
+      "Pressures..bar.",
+      "Year",
+      "Article.Title",
+      "Authors",
+      "Journal",
+      "DOI.URL"
+    )]
   }, filter = 'top',
   extensions = c("Buttons", "Select"),
   selection = 'none',
   server = FALSE,
-  colnames = c("Full Name" = "Full.Name","Permeability (Barrer)" = "P","Selectivity" = "alph",
-               "IL Cation Name" = "IL.Cation.name","IL Cation SMILE" = "IL.Cation.SMILE","IL Anion Name" = "IL.Anion.name",
-               "IL Anion SMILE" = "IL.Anion.SMILE","PIL Monomer Cation Name" = "PIL.Monomer.Cation.name","PIL Monomer Cation SMILE" = "PIL.Monomer.Cation.SMILE",
-               "PIL Anion Name" = "PIL.Anion.name","PIL Anion SMILE" = "PIL.Anion.SMILE","Other Materials" = "Support.Copolymer.metal.organic.framework..MOF.",
-               "Temperature (DegC)" = "Temperatures..degC.","Pressure (bar)" = "Pressures..bar.",
-               "Article Title" = "Article.Title","DOI Link" = "DOI.URL"),
-  callback = JS("table.on('click.dt', 'td', function() {
+  colnames = c(
+    "Full Name" = "Full.Name",
+    "Permeability (Barrer)" = "P",
+    "Selectivity" = "alph",
+    "IL Cation Name" = "IL.Cation.name",
+    "IL Cation SMILE" = "IL.Cation.SMILE",
+    "IL Anion Name" = "IL.Anion.name",
+    "IL Anion SMILE" = "IL.Anion.SMILE",
+    "PIL Monomer Cation Name" = "PIL.Monomer.Cation.name",
+    "PIL Monomer Cation SMILE" = "PIL.Monomer.Cation.SMILE",
+    "PIL Anion Name" = "PIL.Anion.name",
+    "PIL Anion SMILE" = "PIL.Anion.SMILE",
+    "Other Materials" = "Support.Copolymer.metal.organic.framework..MOF.",
+    "Temperature (DegC)" = "Temperatures..degC.",
+    "Pressure (bar)" = "Pressures..bar.",
+    "Article Title" = "Article.Title",
+    "DOI Link" = "DOI.URL"
+  ),
+  callback = JS(
+    "table.on('click.dt', 'td', function() {
             var row_=table.cell(this).index().row;
             var col=table.cell(this).index().column;
             var rnd= Math.random();
             var data = [row_, col, rnd];
            Shiny.onInputChange('rows2',data );
-    });"),
+    });"
+  ),
   options = list(
     select = TRUE,
     dom = "Blfrtip",
     scrollX = TRUE,
     autoWidth = TRUE,
-    buttons = list(
-      list(
-        extend = "copy",
-        text = 'Copy',
-        exportOptions = list(modifier = list(selected = TRUE))
-      )
-    ),
+    buttons = list(list(
+      extend = "copy",
+      text = 'Copy',
+      exportOptions = list(modifier = list(selected = TRUE))
+    )),
     # The columnDefs are used to control the size and format of the columns.
     columnDefs = list(
-      list(width = '300px', targets = c(1,2,18,19,20)),
-      list(width = '475px', targets = c(6,7,8,9,10,11,12,13,14)),
+      list(width = '300px', targets = c(1, 2, 18, 19, 20)),
+      list(
+        width = '475px',
+        targets = c(6, 7, 8, 9, 10, 11, 12, 13, 14)
+      ),
       list(width = '100px', targets = c(3)),
-      list(targets = c(1,2,18,19,20),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 50 ?","'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;","}")),
-      list(targets = c(6,7,8,9,10,11,12,13,14),render = JS("function(data, type, row, meta) {","return type === 'display' && data.length > 70 ?","'<span title=\"' + data + '\">' + data.substr(0, 60) + '...</span>' : data;","}")))
+      list(
+        targets = c(1, 2, 18, 19, 20),
+        render = JS(
+          "function(data, type, row, meta) {",
+          "return type === 'display' && data.length > 50 ?",
+          "'<span title=\"' + data + '\">' + data.substr(0, 40) + '...</span>' : data;",
+          "}"
+        )
+      ),
+      list(
+        targets = c(6, 7, 8, 9, 10, 11, 12, 13, 14),
+        render = JS(
+          "function(data, type, row, meta) {",
+          "return type === 'display' && data.length > 70 ?",
+          "'<span title=\"' + data + '\">' + data.substr(0, 60) + '...</span>' : data;",
+          "}"
+        )
+      )
+    )
   ))
   
   # The following code renders the plotly plot using the plot_builder function.
@@ -181,7 +314,8 @@ server <- function(input, output, session) {
             br(),
             p(small(
               b("Permeability: "),
-              paste(membrane_data$P[rowClicked]), paste("Barrer"),
+              paste(membrane_data$P[rowClicked]),
+              paste("Barrer"),
               HTML(
                 "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
               ),
@@ -292,7 +426,8 @@ server <- function(input, output, session) {
             br(),
             p(small(
               b("Permeability: "),
-              paste(membrane_data$P[rowClicked]), paste("Barrer"),
+              paste(membrane_data$P[rowClicked]),
+              paste("Barrer"),
               HTML(
                 "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"
               ),
@@ -351,21 +486,25 @@ server <- function(input, output, session) {
   })
   # The following observe event check (only once) whether a user hovered on a point in the plotly plot
   # then send a toastr notification as a tutorial for what more can be done.
-  observeEvent(event_data("plotly_hover", source = "co2_n2_plot", priority = "event"),once = TRUE,{
-    toastr_info("Click on the point for more information")
-    toastr_info("Click on the gear sympol for filters")
-  })
-  observeEvent(event_data("plotly_hover", source = "co2_ch4_plot", priority = "event"),once = TRUE,{
-    toastr_info("Click on the point for more information")
-    toastr_info("Click on the gear sympol for filters")
-  })
+  observeEvent(event_data("plotly_hover", source = "co2_n2_plot", priority = "event"),
+               once = TRUE,
+               {
+                 toastr_info("Click on the point for more information")
+                 toastr_info("Click on the gear sympol for filters")
+               })
+  observeEvent(event_data("plotly_hover", source = "co2_ch4_plot", priority = "event"),
+               once = TRUE,
+               {
+                 toastr_info("Click on the point for more information")
+                 toastr_info("Click on the gear sympol for filters")
+               })
   # the following observe events checks (only once) whether a user clicked on a row
   # in data tables then sends a toastr notification as a tutorial for what more can be done.
-  observeEvent(input$rows1,once = TRUE,{
+  observeEvent(input$rows1, once = TRUE, {
     toastr_info("Click on the copy button to copy to clipboard")
     toastr_info("Use ctrl + click (cmd + click for Mac) to select multiple rows")
   })
-  observeEvent(input$rows2,once = TRUE,{
+  observeEvent(input$rows2, once = TRUE, {
     toastr_info("Click on the copy button to copy to clipboard")
     toastr_info("Use ctrl + click (cmd + click for Mac) to select multiple rows")
   })
@@ -381,11 +520,11 @@ server <- function(input, output, session) {
   })
   observeEvent(input$perm_max, {
     updateSliderInput(session, "perm",
-                      value = c(input$perm[1],input$perm_max))
+                      value = c(input$perm[1], input$perm_max))
   })
   observeEvent(input$perm_min, {
     updateSliderInput(session, "perm",
-                      value = c(input$perm_min,input$perm[2]))
+                      value = c(input$perm_min, input$perm[2]))
   })
   
   observeEvent(input$alpha, {
@@ -396,11 +535,11 @@ server <- function(input, output, session) {
   })
   observeEvent(input$alpha_max, {
     updateSliderInput(session, "alpha",
-                      value = c(input$alpha[1],input$alpha_max))
+                      value = c(input$alpha[1], input$alpha_max))
   })
   observeEvent(input$alpha_min, {
     updateSliderInput(session, "alpha",
-                      value = c(input$alpha_min,input$alpha[2]))
+                      value = c(input$alpha_min, input$alpha[2]))
   })
   
   observeEvent(input$yr, {
@@ -411,11 +550,11 @@ server <- function(input, output, session) {
   })
   observeEvent(input$yr_max, {
     updateSliderInput(session, "yr",
-                      value = c(input$yr[1],input$yr_max))
+                      value = c(input$yr[1], input$yr_max))
   })
   observeEvent(input$yr_min, {
     updateSliderInput(session, "yr",
-                      value = c(input$yr_min,input$yr[2]))
+                      value = c(input$yr_min, input$yr[2]))
   })
   
   observeEvent(input$perm2, {
@@ -426,11 +565,11 @@ server <- function(input, output, session) {
   })
   observeEvent(input$perm2_max, {
     updateSliderInput(session, "perm2",
-                      value = c(input$perm2[1],input$perm2_max))
+                      value = c(input$perm2[1], input$perm2_max))
   })
   observeEvent(input$perm2_min, {
     updateSliderInput(session, "perm2",
-                      value = c(input$perm2_min,input$perm2[2]))
+                      value = c(input$perm2_min, input$perm2[2]))
   })
   
   observeEvent(input$alpha2, {
@@ -440,12 +579,14 @@ server <- function(input, output, session) {
     updateNumericInput(session, "alpha2_max", value = input$alpha2[2])
   })
   observeEvent(input$alpha2_max, {
-    updateSliderInput(session, "alpha2",
-                      value = c(input$alpha2[1],input$alpha2_max))
+    updateSliderInput(session,
+                      "alpha2",
+                      value = c(input$alpha2[1], input$alpha2_max))
   })
   observeEvent(input$alpha2_min, {
-    updateSliderInput(session, "alpha2",
-                      value = c(input$alpha2_min,input$alpha2[2]))
+    updateSliderInput(session,
+                      "alpha2",
+                      value = c(input$alpha2_min, input$alpha2[2]))
   })
   
   observeEvent(input$yr2, {
@@ -456,10 +597,146 @@ server <- function(input, output, session) {
   })
   observeEvent(input$yr2_max, {
     updateSliderInput(session, "yr2",
-                      value = c(input$yr2[1],input$yr2_max))
+                      value = c(input$yr2[1], input$yr2_max))
   })
   observeEvent(input$yr2_min, {
     updateSliderInput(session, "yr2",
-                      value = c(input$yr2_min,input$yr2[2]))
+                      value = c(input$yr2_min, input$yr2[2]))
+  })
+  
+  # The following observeEvents are for the reset buttons.
+  observeEvent(input$res, {
+    membrane_data <-
+      read.xlsx2("data/IL_Robeson_R.xlsx", 1)
+    # The updateSliderInput, updatePickerInput, and updateSwitchInput are used
+    # to change the widgets serverside.
+    updateSliderInput(
+      session,
+      "alpha",
+      value = c(0, membrane_data$alph %>% as.vector %>% as.numeric %>% max)
+    )
+    updateSliderInput(session,
+                      "perm",
+                      value = c(0, membrane_data$P %>% as.vector %>% as.numeric %>% max))
+    updateSliderInput(
+      session,
+      "yr",
+      value = c(
+        membrane_data$Year %>% as.vector %>% as.numeric %>% min,
+        membrane_data$Year %>% as.vector %>% as.numeric %>% max
+      )
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "jour",
+      label = "Journals",
+      choices = as.character(unique(membrane_data$Journal))
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "auth",
+      label = "Author",
+      choices = as.character(unique(membrane_data$Corresponding.Author))
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "cati",
+      label = "Cation",
+      choices = c(as.character(
+        unique(membrane_data$IL.Cation.name)
+      ), as.character(
+        unique(membrane_data$PIL.Monomer.Cation.name)
+      ))[!c(as.character(unique(membrane_data$IL.Cation.name)), as.character(unique(
+        membrane_data$PIL.Monomer.Cation.name
+      ))) %in% c("", "-")]
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "ani",
+      label = "Anion",
+      choices = c(as.character(
+        unique(membrane_data$IL.Anion.name)
+      ), as.character(
+        unique(membrane_data$PIL.Anion.name)
+      ))[!c(as.character(unique(membrane_data$IL.Anion.name)), as.character(unique(membrane_data$PIL.Anion.name))) %in% c("", "-")]
+    )
+    
+    updateSwitchInput(session,
+                      "typ",
+                      label = "Color Types",
+                      value = FALSE)
+
+  })
+  
+  # The following observeEvents are for the reset buttons.
+  observeEvent(input$res2, {
+    membrane_data2 <-
+      read.xlsx2("data/IL_Robeson_R.xlsx", 2)
+    # The updateSliderInput, updatePickerInput, and updateSwitchInput are used
+    # to change the widgets serverside.
+    updateSliderInput(
+      session,
+      "alpha2",
+      value = c(0, membrane_data2$alph %>% as.vector %>% as.numeric %>% max)
+    )
+    updateSliderInput(session,
+                      "perm2",
+                      value = c(0, membrane_data2$P %>% as.vector %>% as.numeric %>% max))
+    updateSliderInput(
+      session,
+      "yr2",
+      value = c(
+        membrane_data2$Year %>% as.vector %>% as.numeric %>% min,
+        membrane_data2$Year %>% as.vector %>% as.numeric %>% max
+      )
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "jour2",
+      label = "Journals",
+      choices = as.character(unique(membrane_data2$Journal))
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "auth2",
+      label = "Author",
+      choices = as.character(unique(membrane_data2$Corresponding.Author))
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "cati2",
+      label = "Cation",
+      choices = c(as.character(
+        unique(membrane_data2$IL.Cation.name)
+      ), as.character(
+        unique(membrane_data2$PIL.Monomer.Cation.name)
+      ))[!c(as.character(unique(membrane_data2$IL.Cation.name)), as.character(unique(
+        membrane_data2$PIL.Monomer.Cation.name
+      ))) %in% c("", "-")]
+    )
+    
+    updatePickerInput(
+      session,
+      inputId = "ani2",
+      label = "Anion",
+      choices = c(as.character(
+        unique(membrane_data2$IL.Anion.name)
+      ), as.character(
+        unique(membrane_data2$PIL.Anion.name)
+      ))[!c(as.character(unique(membrane_data2$IL.Anion.name)), as.character(unique(membrane_data2$PIL.Anion.name))) %in% c("", "-")]
+    )
+    
+    updateSwitchInput(session,
+                      "typ2",
+                      label = "Color Types",
+                      value = FALSE)
+    
   })
 }

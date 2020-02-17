@@ -8,6 +8,8 @@ membrane_data <-
 membrane_data2 <-
   read.xlsx2("data/IL_Robeson_R.xlsx", 2)
 
+useShinyjs()
+
 # I will use a navbar page layout for this app, which allows me to add a navigation bar to
 # hold my tabs.
 navbarPage(
@@ -70,8 +72,11 @@ navbarPage(
     # The dropdown function (from shinyWidgets) is used to create a dropdown
     # panel. Which holds the other widgets here.
     dropdown(
+      fluidRow(
+        column(3,style='padding:0px;',
       # The switchInput function is for the switch widget.
       switchInput(
+        value = FALSE,
         # As in any user input widget, you must give the widget a name,
         # here it is "typ."
         # Google or use help() to findout more about the widgets arguments.
@@ -79,6 +84,11 @@ navbarPage(
         label = "Color Types",
         onLabel = "ON",
         offLabel = "OFF"
+      )),
+      column(6,""),style='padding:0px;',
+      column(3,style='padding:0px;',
+             actionButton("res", label = "Reset Plot"),
+             )
       ),
       # The following code is for a workaround of the lack of a slider/box input widget.
       # Creating a well panel ui page display (it will wrap this element/s in a panel),
@@ -273,15 +283,23 @@ navbarPage(
       )
     )),
     dropdown(
-      # The switchInput function is for the switch widget.
-      switchInput(
-        # As in any user input widget, you must give the widget a name,
-        # here it is "typ."
-        # Google or use help() to findout more about the widgets arguments.
-        "typ2",
-        label = "Color Types",
-        onLabel = "ON",
-        offLabel = "OFF"
+      fluidRow(
+        column(3,style='padding:0px;',
+               # The switchInput function is for the switch widget.
+               switchInput(
+                 # As in any user input widget, you must give the widget a name,
+                 # here it is "typ."
+                 # Google or use help() to findout more about the widgets arguments.
+                 "typ2",
+                 label = "Color Types",
+                 onLabel = "ON",
+                 offLabel = "OFF",
+                 value = FALSE
+               )),
+        column(6,""),style='padding:0px;',
+        column(3,style='padding:0px;',
+               actionButton("res2", label = "Reset Plot"),
+        )
       ),
       # The following code is for a workaround of the lack of a slider/box input widget.
       # Creating a well panel ui page display (it will wrap this element/s in a panel),
