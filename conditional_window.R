@@ -1,10 +1,13 @@
 # This script hold the conditional_window function.
-# This function takes the database and the row clicked to spit out
+# This function takes the database and the row clicked to give
 # an html tagged table with the specific anion-cation description.
 # This function also uses "https://cactus.nci.nih.gov/" api to translate
 # SMILES to actual images.
 
 conditional_window <- function(membrane_data, rowClicked = rowClicked) {
+  # If the clicked on point has a type equal to the string do the following.
+  # For Polymeric Ionic Liquid - Copolymer, the table in the pop-up window should show:
+  # The copolymer name, PIL monomer cation and anion names and structures.
   if (as.vector(membrane_data$Type_cond[rowClicked]) == 'PIL-BCP') {
     paste(
       tags$tr(tags$th(tags$p(
@@ -48,6 +51,8 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
               ))
     )
   }
+  # For Supported Ionic Liquid, the table in the pop-up window should show:
+  # The support polymer name, IL monomer cation and anion names and structures.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'SILM') {
     paste(
       tags$tr(tags$th(tags$p(
@@ -91,6 +96,8 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
               ))
     )
   }
+  # For Polymeric Ionic Liquid - Copolymer, the table in the pop-up window should show:
+  # PIL monomer cation and anion names and structures.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'PIL') {
     paste(
       tags$tr(tags$th(
@@ -127,6 +134,8 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
       ))
     )
   }
+  # For Mixed Matrix with IL, the table in the pop-up window should show:
+  # The matrix component name, PIL monomer cation and anion names and structures.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'MMM') {
     paste(
       tags$tr(tags$th(
@@ -170,6 +179,8 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
               ))
     )
   }
+  # For Polymeric Ionic Liquid - Free Ionic Liquid, the table in the pop-up window should show:
+  # PIL monomer cation and anion names and structures, IL monomer cation and anion names and structures.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'PIL-IL') {
     paste(
       tags$tr(
@@ -226,6 +237,8 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
       )
     )
   }
+  # For Polymeric Ionic Liquid - Copolymer - Free Ionic Liquid, the table in the pop-up window should show:
+  # The copolymer name, PIL monomer cation and anion names and structures, IL monomer cation and anion names and structures.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'PIL-BCP (free IL)') {
     paste(
       tags$tr(
@@ -289,6 +302,8 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
       )
     )
   }
+  # For Polymer - Ionic Liquid gels, the table in the pop-up window should show:
+  # Polymer name, IL monomer cation and anion names and structures.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'Polymer-IL') {
     paste(
       tags$tr(tags$th(tags$p(
@@ -332,6 +347,8 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
               ))
     )
   }
+  # For Mixed Matrix with PIL and free IL, the table in the pop-up window should show:
+  # The matrix component name, PIL monomer cation and anion names and structures, IL monomer cation and anion names and structures.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'MMM (PIL)') {
     paste(
       tags$tr(
@@ -395,6 +412,7 @@ conditional_window <- function(membrane_data, rowClicked = rowClicked) {
       )
     )
   }
+  # If no IL, keep table empty.
   else if (as.vector(membrane_data$Type_cond[rowClicked]) == 'No IL Membrane') {
     
   }

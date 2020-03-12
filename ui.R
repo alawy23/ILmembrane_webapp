@@ -8,8 +8,6 @@ membrane_data <-
 membrane_data2 <-
   read.xlsx2("data/IL_Robeson_R.xlsx", 2)
 
-useShinyjs()
-
 # I will use a navbar page layout for this app, which allows me to add a navigation bar to
 # hold my tabs.
 navbarPage(
@@ -96,6 +94,8 @@ navbarPage(
         # Creating a fluid row to place the box inputs and title in.
       fluidRow(
         # Placing each element in a column box input-Title-box input.
+        # The tags$style argument is to make the font smaller in the numeric input box.
+        # (from Geovany from stackoverflow)
         column(3,style='padding:0px;',tags$style("#perm_min {font-size:10px;height:10px;}"),
       numericInput("perm_min", NULL, min = min(as.numeric(as.vector(membrane_data$P))), max = max(as.numeric(as.vector(membrane_data$P))), value = min(as.numeric(as.vector(membrane_data$P))))),
       column(6, HTML("<center><b>Permeability</b></center>")),
@@ -248,6 +248,8 @@ navbarPage(
       
       # The following argument are for the dropdown function, and are used to style
       # it mostly.
+      # The animations and stylization is courtsy of the official
+      # shinyWidgets example.
       style = "unite",
       icon = icon("gear"),
       status = "danger",

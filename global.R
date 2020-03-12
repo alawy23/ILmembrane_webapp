@@ -27,4 +27,3 @@ library(shinytoastr)
 # shinyhelper is the package used to create the helper icon and message atop of the
 # plots and data tables in the app.
 library(shinyhelper)
-library(shinyjs)

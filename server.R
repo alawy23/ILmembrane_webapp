@@ -83,7 +83,7 @@ server <- function(input, output, session) {
     "Article Title" = "Article.Title",
     "DOI Link" = "DOI.URL"
   ),
-  # The following code is clicked on a row (from Batanichek in stackoverflow).
+  # The following JS code is to check if clicked on a row (from Batanichek in stackoverflow).
   # Checking whether a row is clicked will be used to send tutorial notifications.
   callback = JS(
     "table.on('click.dt', 'td', function() {
@@ -115,6 +115,8 @@ server <- function(input, output, session) {
       list(width = '100px', targets = c(3)),
       list(
         targets = c(1, 2, 18, 19, 20),
+        # The render argument JS code is courtsy of the official DT package
+        # DataTable Options tutorial page, edited to my specs.
         render = JS(
           "function(data, type, row, meta) {",
           "return type === 'display' && data.length > 50 ?",
