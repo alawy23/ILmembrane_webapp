@@ -27,5 +27,40 @@ This R web app (made with shiny and plotly). Takes manually collected ionic liqu
   ![](IL_membrane_webapp.gif)
 - I will include a link here to it soon.
 
+## Packages Used:
+- shiny: 
+  - http://shiny.rstudio.com
+  - https://cran.r-project.org/web/packages/shiny/index.html
+- xlsx: 
+  - https://github.com/colearendt/xlsx
+  - https://cran.r-project.org/web/packages/xlsx/index.html
+- Plotly: 
+  -	https://plotly-r.com
+  - https://cran.r-project.org/web/packages/plotly/index.html
+- Stringr: 
+  -	http://stringr.tidyverse.org
+  - https://cran.r-project.org/web/packages/stringr/index.html
+- Tidyverse: 
+  -	http://tidyverse.tidyverse.org
+  - https://cran.r-project.org/web/packages/tidyverse/index.html
+- Shinywidgets: 
+  -	https://github.com/dreamRs/shinyWidgets
+  - https://cran.r-project.org/web/packages/shinyWidgets/index.html
+- Shinythemes: 
+  - http://rstudio.github.io/shinythemes/
+  - https://cran.r-project.org/web/packages/shinythemes/index.html
+- Htmlwidgets: 
+  - https://github.com/ramnathv/htmlwidgets
+  - https://cran.r-project.org/web/packages/htmlwidgets/index.html
+- DT: 
+  - https://github.com/rstudio/DT
+  - https://cran.r-project.org/web/packages/DT/index.html
+- Shinytoastr: 
+  - https://github.com/mangothecat/shinytoastr
+  - https://cran.r-project.org/web/packages/shinytoastr/index.html
+- Shinyhelper: 
+  -	https://github.com/cwthom/shinyhelper
+  - https://cran.r-project.org/web/packages/shinyhelper/index.html
+
 ## About:
 - I will add the about section soon.
