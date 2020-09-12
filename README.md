@@ -31,9 +31,6 @@ This R web app (made with shiny and plotly). Takes manually collected ionic liqu
 - shiny: 
   - http://shiny.rstudio.com
   - https://cran.r-project.org/web/packages/shiny/index.html
-- xlsx: 
-  - https://github.com/colearendt/xlsx
-  - https://cran.r-project.org/web/packages/xlsx/index.html
 - Plotly: 
   -	https://plotly-r.com
   - https://cran.r-project.org/web/packages/plotly/index.html
