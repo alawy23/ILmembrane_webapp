@@ -4,9 +4,6 @@
 # The following lines are necessary to introduce the packages used in the app.
 # The shiny package is what was used to create the web apps.
 library(shiny)
-# The xlsx package is what I used to easily import my Excel data. It can also be used to
-# manipulate the Excel file, which can be very useful, but not used here.
-library(xlsx)
 # The plotly package is what I used to create the interactive plots here.
 library(plotly)
 # The stringer package is used for string manipulation.

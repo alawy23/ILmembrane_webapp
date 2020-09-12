@@ -38,11 +38,11 @@ plot_builder <- function(membrane_data,
   # data was chosen.
   if (plot_src == "co2_n2_plot") {
     membrane_data <-
-      read.xlsx2("data/IL_Robeson_R.xlsx", 1)
+      read.csv("data/IL_Robeson_R_CO2N2.csv")
   }
   else if (plot_src == "co2_ch4_plot") {
     membrane_data <-
-      read.xlsx2("data/IL_Robeson_R.xlsx", 2)
+      read.csv("data/IL_Robeson_R_CO2CH4.csv")
   }
   
   # Introducing a new column "key", which will be used to refer to certain datapoints.

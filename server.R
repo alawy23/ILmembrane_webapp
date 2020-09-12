@@ -11,7 +11,7 @@ server <- function(input, output, session) {
   source('conditional_window.R')
   # The follwing code renders and styles the data table tab.
   output$table1 <- renderDataTable({
-    membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 1)
+    membrane_data = read.csv("data/IL_Robeson_R_CO2N2.csv")
     # The following lines remove unecessary metadata for the data tab.
     membrane_data = subset(
       membrane_data,
@@ -23,7 +23,6 @@ server <- function(input, output, session) {
         Material.4,
         Material.5,
         Material.6,
-        Notes,
         Institutions,
         Corresponding.Author,
         Corresponding.Author.Email,
@@ -138,7 +137,7 @@ server <- function(input, output, session) {
   
   # The follwing code renders and styles the data table tab.
   output$table2 <- renderDataTable({
-    membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 2)
+    membrane_data = read.csv("data/IL_Robeson_R_CO2CH4.csv")
     # The following lines remove unecessary metadata for the data tab.
     membrane_data = subset(
       membrane_data,
@@ -150,7 +149,6 @@ server <- function(input, output, session) {
         Material.4,
         Material.5,
         Material.6,
-        Notes,
         Institutions,
         Corresponding.Author,
         Corresponding.Author.Email,
@@ -258,7 +256,7 @@ server <- function(input, output, session) {
   # The following code renders the plotly plot using the plot_builder function.
   output$plot1 <- renderPlotly({
     plot_builder(
-      membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 1),
+      membrane_data = read.csv("data/IL_Robeson_R_CO2N2.csv"),
       plot_src = "co2_n2_plot",
       # The following arguments are linked to inputs from widgets introduced in the UI part.
       minP = input$perm[1],
@@ -278,7 +276,7 @@ server <- function(input, output, session) {
   # The following code looks for any marker click event and runs a pop-up window
   # which gives more information about the points clicked.
   observe({
-    membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 1)
+    membrane_data = read.csv("data/IL_Robeson_R_CO2N2.csv")
     membrane_data$key <- row.names(membrane_data)
     # Setting the clicked variable equal to user input from any point clicks.
     clicked <-
@@ -381,7 +379,7 @@ server <- function(input, output, session) {
   # and will be used in a different tab.
   output$plot2 <- renderPlotly({
     plot_builder(
-      membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 2),
+      membrane_data = read.csv("data/IL_Robeson_R_CO2CH4.csv"),
       plot_src = "co2_ch4_plot",
       minP = input$perm2[1],
       maxP = input$perm2[2],
@@ -401,7 +399,7 @@ server <- function(input, output, session) {
   # The following code is similar to the observe function above, but to observe only the
   # second plot.
   observe({
-    membrane_data = read.xlsx2("data/IL_Robeson_R.xlsx", 2)
+    membrane_data = read.csv("data/IL_Robeson_R_CO2CH4.csv")
     membrane_data$key <- row.names(membrane_data)
     clicked <-
       event_data("plotly_click", source = "co2_ch4_plot", priority = "event")
@@ -609,7 +607,7 @@ server <- function(input, output, session) {
   # The following observeEvents are for the reset buttons.
   observeEvent(input$res, {
     membrane_data <-
-      read.xlsx2("data/IL_Robeson_R.xlsx", 1)
+      read.csv("data/IL_Robeson_R_CO2N2.csv")
     # The updateSliderInput, updatePickerInput, and updateSwitchInput are used
     # to change the widgets serverside.
     updateSliderInput(
@@ -677,7 +675,7 @@ server <- function(input, output, session) {
   # The following observeEvents are for the reset buttons.
   observeEvent(input$res2, {
     membrane_data2 <-
-      read.xlsx2("data/IL_Robeson_R.xlsx", 2)
+      read.csv("data/IL_Robeson_R_CO2CH4.csv")
     # The updateSliderInput, updatePickerInput, and updateSwitchInput are used
     # to change the widgets serverside.
     updateSliderInput(

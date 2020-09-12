@@ -3,10 +3,10 @@
 
 # I am introducing my data bases here
 membrane_data <-
-  read.xlsx2("data/IL_Robeson_R.xlsx", 1)
+  read.csv("data/IL_Robeson_R_CO2N2.csv")
 
 membrane_data2 <-
-  read.xlsx2("data/IL_Robeson_R.xlsx", 2)
+  read.csv("data/IL_Robeson_R_CO2CH4.csv")
 
 # I will use a navbar page layout for this app, which allows me to add a navigation bar to
 # hold my tabs.
