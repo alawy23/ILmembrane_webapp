@@ -59,5 +59,19 @@ This R web app (made with shiny and plotly). Takes manually collected ionic liqu
   -	https://github.com/cwthom/shinyhelper
   - https://cran.r-project.org/web/packages/shinyhelper/index.html
 
+## Notes on Copyright and Reuse
+
+Disclaimer:  Not legal advice, just our own personal (non-lawyer) thoughtful notes.
+
+The purpose of this ionic liquid membrane data compilation is to allow greater discovery, reuse, and credit of the original authors' factual data, not to claim any ownership of the written article content. Please check the original reference for specific copyright related to the article.
+
+For all ionic liquid membranes indexed, no judgment is made on the appropriateness of the methods reported, safety precautions required, nor accuracy of the measurement data. Readers need to make their own assessment of the data. In addition, during indexing and processing of the membrane data, inaccuracies may be present due to human and/or machine software error. We attempted to minimize inaccuracies and share membrane data with fidelity to the original source, however, we can not make any guarantees on the accuracy of the membrane and structure data. You should always check the original reference to verify the data.
+
+We have only indexed and shared scientific facts (i.e., chemical substances, permeability data) and bibliographic information from the articles. Such scientific facts and bibliographic data are not subject to U.S. copyright protection: Compendium of U.S. Copyright Office Practices. See specifically section 313.3(A) and 313.3 (C), where examples are listed that are excluded from copyright protection, including facts and chemical substances: https://www.copyright.gov/comp3/
+
+We have endeavored to credit each author and journal source respectfully by including the full reference citations and permalink to the source.
+
+The data compilation in this repository is licensed with CC-BY 4.0. Please give the original authors credit by citing their work and following standard scholarly practice for reuse of the scientific literature, particularly if our compilation has led you to useful content within their article.
+
 ## About:
 - I will add the about section soon.
