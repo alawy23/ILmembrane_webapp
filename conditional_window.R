@@ -1,3 +1,4 @@
+# conditional_window.R
 # This script hold the conditional_window function.
 # This function takes the database and the row clicked to give
 # an html tagged table with the specific anion-cation description.

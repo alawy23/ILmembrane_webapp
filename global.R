@@ -1,3 +1,4 @@
+# global.R
 # The global script is called before all the others, so I am using it to call all
 # the packages I used in the code.
 

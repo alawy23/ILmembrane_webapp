@@ -1,3 +1,4 @@
+# server.R
 # This script is for the server part of the web app.
 # Here UI objects are linked with inputs or outputs.
 

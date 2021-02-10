@@ -1,0 +1,13 @@
+name: ilmembrane_webapp
+title:
+username:
+account: aliapp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1810418
+bundleId: 2807487
+url: https://aliapp.shinyapps.io/ilmembrane_webapp/
+when: 1581974980.83506
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: helpfiles/PlotHelp.html

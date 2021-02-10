@@ -1,3 +1,4 @@
+# plot_builder.R
 # This script is for the plot_builder function.
 # This function  takes a number of argument that are user inputs from widgets
 # and tweaks the plot_ly function accordingly.
